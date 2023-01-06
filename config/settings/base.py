@@ -155,6 +155,22 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CORS_URLS_REGEX = r"^/api/.*$"
 
 
+AUTH_USER_MODEL = "users.User"
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Axxase Api",
+    "DESCRIPTION": "Api for Axasse",
+    "VERSION": "0.1.0",
+    "CONTACT": "hammedfree@gmail.com",
+    "LICENSE": "MIT License",
+    # OTHER SETTINGS
+}
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
