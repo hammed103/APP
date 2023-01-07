@@ -1,7 +1,7 @@
 import environ
 
 from pathlib import Path
-
+from django.conf.global_settings import CSRF_TRUSTED_ORIGINS
 
 env = environ.Env()
 
@@ -36,6 +36,7 @@ THIRD_PARTY_APPS = [
     "phonenumber_field",
     "drf_spectacular",
     "corsheaders",
+    "djcelery_email",
 ]
 
 LOCAL_APPS = ["core_apps.common", "core_apps.users", "core_apps.profiles"]
@@ -152,11 +153,19 @@ MEDIA_ROOT = str(ROOT_DIR / "mediafiles")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CORS_URLS_REGEX = r"^/api/.*$"
+CORS_ORIGIN_ALLOW_ALL = True
 
+CORS_URLS_REGEX = r"^/api/.*$"
 
 AUTH_USER_MODEL = "users.User"
 
+
+CELERY_BROKER_URL = env("CELERY_BROKER")
+CELERY_RESULT_BACKEND = env("CELERY_BACKEND")
+CELERY_TIMEZONE = "America/New_York"
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",

@@ -44,6 +44,64 @@ services:
             - APP
 
 
+    nginx:
+        restart: always
+        depends_on:
+            - api
+        volumes:
+            - ./staticfiles:/app/staticfiles
+            - ./mediafiles:/app/mediafiles
+        build:
+            context: ./docker/local/nginx
+            dockerfile: Dockerfile
+        ports:
+            - "8080:80"
+        networks:
+            - APP   
+
+    redis:
+        image: redis:6-alpine
+        container_name: redis
+        networks:
+            - APP
+
+    celery_worker:
+        build:
+            context: .
+            dockerfile: ./docker/local/django/Dockerfile
+        command: /start-celeryworker
+        container_name: celery_worker
+        volumes:
+            - .:/app
+        env_file:
+            - ./.envs/.local/.django
+            - ./.envs/.local/.postgres
+        depends_on:
+            - redis
+            - postgres
+            - mailhog
+        networks:
+            - APP
+
+
+    flower:
+        build:
+            context: .
+            dockerfile: ./docker/local/django/Dockerfile
+        command: /start-flower
+        container_name: flower
+        volumes:
+            - .:/app
+        env_file:
+            - ./.envs/.local/.django
+            - ./.envs/.local/.postgres
+        ports:
+            - "5555:5555"
+        depends_on:
+            - redis
+            - postgres
+        networks:
+            - APP
 
 networks:
     APP:
