@@ -167,7 +167,8 @@ CELERY_ACCEPT_CONTENT = ["json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
-REST_FRAMEWORK = {
+REST_FRAMEWORK = {"EXCEPTION_HANDLER": "core_apps.common.exceptions.common_exception_handler",
+    "NON_FIELD_ERRORS_KEY": "error",
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
@@ -179,6 +180,8 @@ SPECTACULAR_SETTINGS = {
     "LICENSE": "MIT License",
     # OTHER SETTINGS
 }
+
+
 
 LOGGING = {
     "version": 1,
