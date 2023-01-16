@@ -18,6 +18,8 @@ urlpatterns = [
         name="redoc",
     ),
     path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path("api/v1/auth/", include("djoser.urls")),
+    path("api/v1/auth/", include("djoser.urls.jwt")),
     
 ]
 
